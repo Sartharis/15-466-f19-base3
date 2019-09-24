@@ -120,6 +120,12 @@ void Scene::draw(glm::mat4 const &world_to_clip, glm::mat4x3 const &world_to_lig
 			glUniformMatrix3fv(pipeline.NORMAL_TO_LIGHT_mat3, 1, GL_FALSE, glm::value_ptr(normal_to_light));
 		}
 
+		if( pipeline.Camera_vec3 != -1U ) {
+			Camera c = ( *cameras.begin() );
+			glm::vec3 camera_pos =  c.transform->make_local_to_world() * glm::vec4(c.transform->position.x, c.transform->position.y, c.transform->position.z, 1.0f );
+			glUniform3f( pipeline.Camera_vec3, camera_pos.x, camera_pos.y, camera_pos.z );
+		}
+
 		//set any requested custom uniforms:
 		if (pipeline.set_uniforms) pipeline.set_uniforms();
 

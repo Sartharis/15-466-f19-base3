@@ -2,7 +2,7 @@
 #include "Mode.hpp"
 
 //Starting mode:
-#include "ObserveMode.hpp"
+#include "SeaMode.hpp"
 
 //Deal with calling resource loading functions:
 #include "Load.hpp"
@@ -53,7 +53,7 @@ int main(int argc, char **argv) {
 
 	//create window:
 	SDL_Window *window = SDL_CreateWindow(
-		"gp19 neighborhood watch", //TODO: remember to set a title for your game!
+		"gp19 sea scraper", //TODO: remember to set a title for your game!
 		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 		800, 540, //TODO: modify window size if you'd like
 		SDL_WINDOW_OPENGL
@@ -99,7 +99,7 @@ int main(int argc, char **argv) {
 	call_load_functions();
 
 	//------------ create game mode + make current --------------
-	Mode::set_current(std::make_shared< ObserveMode >());
+	Mode::set_current(std::make_shared< SeaMode >());
 
 	//------------ main loop ------------
 

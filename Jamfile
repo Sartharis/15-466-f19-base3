@@ -164,9 +164,9 @@ GAME_NAMES =
 	LitColorTextureProgram
 	Sprite
 	MenuMode
-	ObserveMode
 	main
 	data_path
+	SeaMode
 	;
 
 COMMON_NAMES =
@@ -211,7 +211,7 @@ Objects
 	;
 
 LOCATE_TARGET = dist ; #put main in 'dist' directory
-MainFromObjects watch : $(GAME_NAMES:S=$(SUFOBJ)) $(COMMON_NAMES:S=$(SUFOBJ)) ;
+MainFromObjects sea : $(GAME_NAMES:S=$(SUFOBJ)) $(COMMON_NAMES:S=$(SUFOBJ)) ;
 
 LOCATE_TARGET = sprites ; #put pack-sprites utility in the 'sprites' directory:
 MainFromObjects pack-sprites : $(PACK_SPRITES_NAMES:S=$(SUFOBJ)) load_save_png$(SUFOBJ) ;

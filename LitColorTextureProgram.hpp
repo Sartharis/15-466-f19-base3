@@ -10,6 +10,7 @@ struct LitColorTextureProgram {
 	~LitColorTextureProgram();
 
 	GLuint program = 0;
+	GLuint Camera_vec3 = -1U;
 
 	//Attribute (per-vertex variable) locations:
 	GLuint Position_vec4 = -1U;

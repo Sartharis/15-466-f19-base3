@@ -1,8 +1,8 @@
-# (TODO: your game's title)
+# Sea Scraper
 
-Author: (TODO: your name)
+Author: Jan Orlowski
 
-Design: (TODO: In two sentences or fewer, describe what is new and interesting about your game.)
+Design: Explore the deep sea water and take in the atmosphere. 
 
 Screen Shot:
 
@@ -10,10 +10,15 @@ Screen Shot:
 
 How To Play:
 
-(TODO: describe the controls and (if needed) goals/strategy.)
+W to accelerate
+S to decelerate
+A to rotate left
+D to rotate right
+Q to descend
+E to ascend
 
 Sources:
 
-(TODO: fill in information about the sources of any **artwork** or **sounds** you used in the game that you did not create yourself. Feel free to also credit yourself for things you did make.)
+All 3D models (Blender) and music (FL Studio) were made by me.
 
 This game was built with [NEST](NEST.md).

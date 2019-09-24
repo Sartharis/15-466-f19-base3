@@ -14,6 +14,7 @@ Load< LitColorTextureProgram > lit_color_texture_program(LoadTagEarly, []() -> L
 	lit_color_texture_program_pipeline.OBJECT_TO_CLIP_mat4 = ret->OBJECT_TO_CLIP_mat4;
 	lit_color_texture_program_pipeline.OBJECT_TO_LIGHT_mat4x3 = ret->OBJECT_TO_LIGHT_mat4x3;
 	lit_color_texture_program_pipeline.NORMAL_TO_LIGHT_mat3 = ret->NORMAL_TO_LIGHT_mat3;
+	lit_color_texture_program_pipeline.Camera_vec3 = ret->Camera_vec3;
 
 	//make a 1-pixel white texture to bind by default:
 	GLuint tex;
@@ -58,10 +59,11 @@ LitColorTextureProgram::LitColorTextureProgram() {
 		"	color = Color;\n"
 		"	texCoord = TexCoord;\n"
 		"}\n"
-	,
+		,
 		//fragment shader:
 		"#version 330\n"
 		"uniform sampler2D TEX;\n"
+		"uniform vec3 camera;\n"
 		"in vec3 position;\n"
 		"in vec3 normal;\n"
 		"in vec4 color;\n"
@@ -71,15 +73,17 @@ LitColorTextureProgram::LitColorTextureProgram() {
 		"	vec3 n = normalize(normal);\n"
 		"	vec3 l = normalize(vec3(0.1, 0.1, 1.0));\n"
 		"	vec4 albedo = texture(TEX, texCoord) * color;\n"
+		"   vec3 distmod = mix(vec3(1.0,1.0,1.0), vec3(0.1,0.1,0.4), length(position-camera)/150.0 - 0.5);"
 		//simple hemispherical lighting model:
-		"	vec3 light = mix(vec3(0.0,0.0,0.1), vec3(1.0,1.0,0.95), dot(n,l)*0.5+0.5);\n"
-		"	fragColor = vec4(light*albedo.rgb, albedo.a);\n"
+		"	vec3 light = mix(vec3(0.0,0.0,0.1), vec3(1.0,1.0,0.95), (dot(n,l)*0.5+0.5)*mix(vec3(0.3,0.3,0.7),vec3(1.0,1.0,0.8),(position.z + 70)/80) );\n"
+		"	fragColor = vec4(light*albedo.rgb*vec3(0.7,0.7,1.0)*distmod, albedo.a);\n"
 		"}\n"
 	);
 	//As you can see above, adjacent strings in C/C++ are concatenated.
 	// this is very useful for writing long shader programs inline.
 
 	//look up the locations of vertex attributes:
+	
 	Position_vec4 = glGetAttribLocation(program, "Position");
 	Normal_vec3 = glGetAttribLocation(program, "Normal");
 	Color_vec4 = glGetAttribLocation(program, "Color");
@@ -90,6 +94,7 @@ LitColorTextureProgram::LitColorTextureProgram() {
 	OBJECT_TO_LIGHT_mat4x3 = glGetUniformLocation(program, "OBJECT_TO_LIGHT");
 	NORMAL_TO_LIGHT_mat3 = glGetUniformLocation(program, "NORMAL_TO_LIGHT");
 	GLuint TEX_sampler2D = glGetUniformLocation(program, "TEX");
+	Camera_vec3 = glGetUniformLocation( program, "camera" );
 
 	//set TEX to always refer to texture binding zero:
 	glUseProgram(program); //bind program -- glUniform* calls refer to this program now
